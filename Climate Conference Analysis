@@ -1,4 +1,4 @@
-##Data being analyzed.
+#This analysis utilized the following Climate Conference Dataset:
 
 CREATE TABLE vips (
      member_id INTEGER PRIMARY KEY
@@ -123,9 +123,9 @@ INSERT INTO hotels VALUES
  , (3, 'Four Season''s', '900 Winter Road, Cityville, PA')
  ;
 
-##Analysis
+#Analysis:
 
--- 1. List all of the VIPS and if they have reservations for dinner.
+# List all of the VIPS and if they have reservations for dinner.
 SELECT vips.first_name, vips.last_name, 
 CASE WHEN reservations.dinner_rsvp = "1" THEN "Yes"
 ELSE "No" END "dinner"
@@ -134,7 +134,7 @@ LEFT JOIN reservations
 ON vips.member_id = reservations.member_id
 ;
 
--- 2. Find the names of the VIPS who have not RSVP'd to the welcome event.
+# Find the names of the VIPS who have not RSVP'd to the welcome event.
 SELECT vips.first_name, vips.last_name
 FROM vips
 INNER JOIN reservations
@@ -142,7 +142,7 @@ ON vips.member_id = reservations.member_id
 WHERE reservations.welcome_rsvp = 0
 ;
 
--- 3. List all of the VIPS and the hotel name they are staying at.
+# List all of the VIPS and the hotel name they are staying at.
 SELECT vips.first_name, vips.last_name, hotels.hotel_name
 FROM vips
 LEFT JOIN reservations
@@ -152,7 +152,7 @@ LEFT JOIN hotels
 ON reservations.hotel = hotels.hotel_id
 ;
 
--- 4. Show the VIPS who provide feedback and who they give feedback to.
+# Show the VIPS who provide feedback and who they give feedback to.
 SELECT v1.first_name AS provide_feedback, v1.last_name AS provide_last
 , v2.first_name AS receive_feedback, v2.last_name AS receive_last
 FROM vips v1
@@ -160,7 +160,7 @@ JOIN vips v2
 ON v1.provides_feedback_to = v2.member_id
 ;
 
--- 5. Find the number of VIPS staying at each hotel.
+# Find the number of VIPS staying at each hotel.
 SELECT COUNT(reservations.member_id)AS vips_count, hotels.hotel_name
 FROM reservations
 LEFT JOIN hotels
@@ -168,7 +168,7 @@ ON reservations.hotel = hotels.hotel_id
 GROUP BY hotels.hotel_name
 ;
 
--- 6. Which VIPS have been members longer than the average member? 
+# Which VIPS have been members longer than the average member? 
 SELECT vips.first_name, vips.last_name, vips.member_since
 FROM vips
 WHERE vips.member_since < (SELECT ROUND(AVG(vips.member_since),0)
